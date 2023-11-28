@@ -16,28 +16,28 @@ exports.getAllProducts = async (req, res) => {
     res.status(500).send({
       error,
     });
-  }
+  };
 };
 
 exports.getProductsByID = async (req, res) => {
     try {
-        const Data = await Product.findByID(req.params.id)
+        const Data = await Product.findById(req.params.id)
         if(Data){
-            res.status(200)({
+            return res.status(200).send({
                 msg: "Produkt nalezen",
                 Data,
-            })
-        }
+            });
+        };
       res.status(500).send({
         msg: "Product Failed"
-      })  
+      });  
     } 
     catch (error) {
         res.status(500).send({
             error
-        })
-    }
-}
+        });
+    };
+};
 
 exports.createProduct = async (req, res) => {
     try {
@@ -47,24 +47,28 @@ exports.createProduct = async (req, res) => {
             quantity: req.body.quantity,
             smallDescription: req.body.smallDescription,
             description: req.body.description,
-        })
+        });
         const result = await Data.save();
         if (result){
             return res.status(201).send({
                 msg: "Produkt byl vytvořen",
                 Data,
-            })
-        }
+                createdProduct: {
+                    url: `http://localhost:3000/users/${result._id}`,
+                    result,
+                  }
+            });
+        };
         res.status(500).send({
             msg: "Prduct Failed"
-        })
+        });
     }
     catch (error) {
         res.status(500).send({
             error
-        })
-    }
-}
+        });
+    };
+};
 
 exports.updateProduct = async (req, res) => {
     try {
@@ -79,10 +83,7 @@ exports.updateProduct = async (req, res) => {
         if (result) {
             return res.status(201).send({
               msg: "Produkt byl aktualizován",
-              createdUser: {
-                url: `http://localhost:3000/users/${result._id}`,
-                result,
-              },
+              Data,
             });
           }
         if(Data)
@@ -104,7 +105,7 @@ exports.patchProduct = async (req, res) => {
     const result = await Product.findByIdAndUpdate(req.params.id, update)
     try {
         if(result){
-            res.status(201).send({
+            return res.status(201).send({
                 msg: "Produkt patched",
                 createdProduct: {
                     url: `http://localhost:3000/users/${result._id}`,
@@ -124,7 +125,7 @@ exports.deleteProduct = async (req, res) => {
     try {
         const Data = await Product.findByIdAndDelete(req.params.id)
         if(Data){
-            res.status(200).send({
+            return res.status(200).send({
                 msg: "Produkt byl odstraněn",
                 Data
             })
