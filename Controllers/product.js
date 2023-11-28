@@ -79,7 +79,7 @@ exports.updateProduct = async (req, res) => {
             smallDescription: req.body.smallDescription,
             description: req.body.description,
         }
-        const result = await Product.findByIdAndUpdate(req.params.id)
+        const result = await Product.findByIdAndUpdate(req.params.id, Data)
         if (result) {
             return res.status(201).send({
               msg: "Produkt byl aktualizován",
