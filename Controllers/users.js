@@ -2,7 +2,7 @@ const User = require("../Models/users");
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const data = await User.find().select("username");
+    const data = await User.find();
     if (data) {
       return res.status(200).send({
         msg: "Uživatelé byli nalezeni",
