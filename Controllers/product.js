@@ -2,7 +2,7 @@ const Product = require("../Models/product");
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const Data = await Product.find().select("name");
+    const Data = await Product.find();
     if (Data) {
       return res.status(200).send({
         msg: "Produkty nalezeny",
