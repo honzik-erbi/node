@@ -6,7 +6,7 @@ exports.getAllUsers = async (req, res) => {
     if (data && data.length !== 0) {
       return res.status(200).send({
         msg: "Uživatelé byli nalezeni",
-        data,
+        payload: data,
       });
     }
     res.status(500).send({
@@ -25,7 +25,7 @@ exports.getUserById = async (req, res) => {
     if (data) {
       return res.status(200).send({
         msg: "Uživatel byl nalezen",
-        data,
+        payload: data,
       });
     }
     res.status(500).send({
@@ -49,10 +49,7 @@ exports.createUser = async (req, res) => {
     if (result) {
       return res.status(201).send({
         msg: "Uživatel byl vytořen",
-        createdUser: {
-          url: `http://localhost:3000/users/${result._id}`,
-          result,
-        },
+        payload: result,
       });
     }
     res.status(500).send({
@@ -75,10 +72,7 @@ exports.updateUser = async (req, res) => {
       if (result) {
         return res.status(201).send({
           msg: "Uživatel byl aktualizován",
-          createdUser: {
-            url: `http://localhost:3000/users/${result._id}`,
-            result,
-          },
+          payload: result,
         });
       }
       res.status(500).send({
@@ -104,10 +98,7 @@ exports.patchUser = async (req, res) => {
     if (result) {
         return res.status(201).send({
           msg: "Uživatelovi byla aktualizována jedna věc",
-          createdUser: {
-            url: `http://localhost:3000/users/${result._id}`,
-            result,
-          },
+          payload: result,
         });
       }
   } catch (error) {
@@ -123,7 +114,7 @@ exports.deleteUser = async (req, res) => {
     if (data) {
       return res.status(200).send({
         msg: "Uživatel byl ANNIHILATED",
-        data,
+        payload: data,
       });
     }
     res.status(500).send({
