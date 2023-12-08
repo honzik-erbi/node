@@ -2,15 +2,15 @@ const Product = require("../Models/product");
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const Data = await Product.find();
-    if (Data) {
+    const data = await Product.find();
+    if (data && data.lenght !== 0) {
       return res.status(200).send({
         msg: "Produkty nalezeny",
-        Data,
+        payload: data,
       });
     }
     res.status(500).send({
-      msg: "product failed",
+      msg: "Produkt nebyl nalazen",
     });
   } catch (error) {
     res.status(500).send({
@@ -21,15 +21,15 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getProductsByID = async (req, res) => {
     try {
-        const Data = await Product.findById(req.params.id)
-        if(Data){
+        const data = await Product.findById(req.params.id)
+        if(data){
             return res.status(200).send({
                 msg: "Produkt nalezen",
-                Data,
+                payload: data,
             });
         };
       res.status(500).send({
-        msg: "Product Failed"
+        msg: "Produkt nebyl nalazen",
       });  
     } 
     catch (error) {
@@ -41,18 +41,18 @@ exports.getProductsByID = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
     try {
-        const Data = new Product({
+        const data = new Product({
             name: req.body.name,
             price: req.body.price,
             quantity: req.body.quantity,
             smallDescription: req.body.smallDescription,
             description: req.body.description,
         });
-        const result = await Data.save();
+        const result = await data.save();
         if (result){
             return res.status(201).send({
                 msg: "Produkt byl vytvořen",
-                Data,
+                payload: data,
                 createdProduct: {
                     url: `http://localhost:3000/users/${result._id}`,
                     result,
@@ -60,7 +60,7 @@ exports.createProduct = async (req, res) => {
             });
         };
         res.status(500).send({
-            msg: "Prduct Failed"
+            msg: "Produkt nebyl nalazen",
         });
     }
     catch (error) {
@@ -72,7 +72,7 @@ exports.createProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
     try {
-        const Data = {
+        const data = {
             name: req.body.name,
             price: req.body.price,
             quantity: req.body.quantity,
@@ -83,12 +83,12 @@ exports.updateProduct = async (req, res) => {
         if (result) {
             return res.status(201).send({
               msg: "Produkt byl aktualizován",
-              Data,
+              payload: result,
             });
           }
-        if(Data)
+        if(data)
         res.status(500).send({
-            msg: "Produkt Failed"
+            msg: "Produkt nebyl nalazen",
         })
     } catch (error) {
         res.status(500).send({
@@ -98,12 +98,12 @@ exports.updateProduct = async (req, res) => {
 }
 
 exports.patchProduct = async (req, res) => {
+    try {
     const update = {};
     for (const ops of req.body){
         update[ops.propName] = ops.value;
     }
     const result = await Product.findByIdAndUpdate(req.params.id, update)
-    try {
         if(result){
             return res.status(201).send({
                 msg: "Produkt patched",
@@ -123,11 +123,11 @@ exports.patchProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
     try {
-        const Data = await Product.findByIdAndDelete(req.params.id)
-        if(Data){
+        const data = await Product.findByIdAndDelete(req.params.id)
+        if(data){
             return res.status(200).send({
                 msg: "Produkt byl odstraněn",
-                Data
+                payload: data,
             })
         }
         res.status(500).send({

@@ -1,4 +1,4 @@
-const User = require("../Models/users");
+const User = require("../models/users");
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -48,7 +48,7 @@ exports.createUser = async (req, res) => {
     const result = await data.save();
     if (result) {
       return res.status(201).send({
-        msg: "Uživatel byl vytořen",
+        msg: "Uživatel byl vytvořen",
         payload: result,
       });
     }
@@ -67,6 +67,7 @@ exports.updateUser = async (req, res) => {
     const data = {
         username: req.body.username,
         phone: req.body.phone,
+        password: req.body.password,
       };
       const result = await User.findByIdAndUpdate(req.params.id, data);
       if (result) {
