@@ -1,4 +1,4 @@
-const Product = require("../models/product");
+const Product = require("../models/products");
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -104,7 +104,7 @@ exports.patchProduct = async (req, res) => {
             return res.status(201).send({
                 msg: "Produkt patched",
                 createdProduct: {
-                    url: `http://localhost:3000/users/${result._id}`,
+                    url: `http://localhost:3000/products/${result._id}`,
                     result,
                   },
             })
