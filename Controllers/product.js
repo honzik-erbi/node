@@ -1,4 +1,4 @@
-const Product = require("../Models/product");
+const Product = require("../models/product");
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -53,14 +53,10 @@ exports.createProduct = async (req, res) => {
             return res.status(201).send({
                 msg: "Produkt byl vytvořen",
                 payload: data,
-                createdProduct: {
-                    url: `http://localhost:3000/users/${result._id}`,
-                    result,
-                  }
             });
         };
         res.status(500).send({
-            msg: "Produkt nebyl nalazen",
+            msg: "Produkt nebyl nalezen",
         });
     }
     catch (error) {
@@ -88,7 +84,7 @@ exports.updateProduct = async (req, res) => {
           }
         if(data)
         res.status(500).send({
-            msg: "Produkt nebyl nalazen",
+            msg: "Produkt nebyl nalezen",
         })
     } catch (error) {
         res.status(500).send({
