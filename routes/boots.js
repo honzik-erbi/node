@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const bootsController = require("../Controllers/boots")
+const bootsController = require("../controllers/boots")
 
 router.get('/', bootsController.getAllBoots)
 router.get('/:id', bootsController.getBootByID)
